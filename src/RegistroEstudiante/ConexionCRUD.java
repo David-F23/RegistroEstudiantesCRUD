@@ -31,7 +31,7 @@ public class ConexionCRUD {
         return conexion;
     }
     
-    public static void Guardar(String tabla, String camposTabla, String valoresCampos){
+    public void Guardar(String tabla, String camposTabla, String valoresCampos){
         
         ConexionCRUD conectar = new ConexionCRUD();
         Connection conx = conectar.getConnection();
@@ -54,20 +54,80 @@ public class ConexionCRUD {
         }
     }
     
+    
+    
+    public void Actualizar_Eliminar(String tabla, String valoresCamposNuevos, String condicion){
+        
+        ConexionCRUD conectar = new ConexionCRUD();
+        Connection conx = conectar.getConnection();
+        
+        try{
+            String sqlQueryStat;
+            Statement stat;
+            
+            if(valoresCamposNuevos.isEmpty()){
+                
+                sqlQueryStat = "DELETE FROM " + tabla + " WHERE " + condicion + ";";
+                
+            }else{
+                
+                sqlQueryStat = "UPDATE " + tabla + " SET " + valoresCamposNuevos + " WHERE " + condicion + ";";
+            }
+            
+            stat = conx.createStatement();
+            stat.executeUpdate(sqlQueryStat);
+            stat.close();
+            conx.close();
+            
+        }catch(SQLException ex){
+            
+            System.out.println("Ha ocurrido el siguiente error: " + ex.getMessage());
+        }
+    }
+    
+    
+    public void VerRegistros(String tablaBuscar, String campoBuscar, String condicionBuscar) throws SQLException{
+        
+       ConexionCRUD conectar = new ConexionCRUD();
+       Connection conx = conectar.getConnection();
+       
+       try{
+           Statement stat;
+           String sqlQueryStat;
+           
+           if(condicionBuscar.equals("")){
+               
+               sqlQueryStat = "SELECT " + campoBuscar + " FROM " + tablaBuscar + ";";
+               
+           }else{
+               
+               sqlQueryStat = "SELECT " + campoBuscar + " FROM " + tablaBuscar + " WHERE " + condicionBuscar;
+               
+           }
+           
+           stat = conx.createStatement();
+           stat.executeQuery(sqlQueryStat);
+           
+           try(ResultSet miResuktSet = stat.executeQuery(sqlQueryStat)){
+               
+           }
+       }
+    }
+    
     //Este main se utiliza para hacer las pruebas.
     /*public static void main(String[] args) {
         
-        String nombre = "David";
-        String apellido = "Flores";
-        String carnet = "DF2002";
-        int edad = 19;
+        String id = "1002";
+        String nombre = "Juan";
+        String apellido = "Lopez";
+        String carnet = "tg3456";
+        int edad = 30;
         
         String tabla = "tb_estudiante";
-        String camposTabla = "carnet_estudiante, nom_estudiante, ape_estudiante, edad_estudiante";
-        String valoresCampos = "'" + carnet + "','" + nombre + "','" + apellido + "','" + edad + "'";
+        String camposTabla = "id_estudiante, carnet_estudiante, nom_estudiante, ape_estudiante, edad_estudiante";
+        String valoresCamposNuevos = "";
+        String condicion = "id_estudiante = " + id;
         
-        Guardar(tabla, camposTabla, valoresCampos);
+        Actualizar_Eliminar(tabla, valoresCamposNuevos, condicion);
     }*/
-    
-    
 }
