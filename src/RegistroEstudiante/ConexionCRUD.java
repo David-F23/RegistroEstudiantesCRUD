@@ -150,7 +150,7 @@ public class ConexionCRUD {
            
        }catch(SQLException ex){
            
-           System.out.println("Ha ocurrido el siguiente error: " + ex.get);
+           System.out.println("Ha ocurrido el siguiente error: " + ex.getMessage());
        }
     }
     

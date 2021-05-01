@@ -35,7 +35,7 @@ public class MenuPrincipal {
                 //Create create = new Create();
                 break;
             case "2":
-                //Read read = new Read();
+                Read read = new Read();
                 break;
             case "3":
                 //Update update = new Update();
