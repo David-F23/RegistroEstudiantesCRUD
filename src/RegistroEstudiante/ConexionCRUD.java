@@ -108,9 +108,49 @@ public class ConexionCRUD {
            stat = conx.createStatement();
            stat.executeQuery(sqlQueryStat);
            
-           try(ResultSet miResuktSet = stat.executeQuery(sqlQueryStat)){
+           try(ResultSet miResultSet = stat.executeQuery(sqlQueryStat)){
                
+               if(miResultSet.next()){
+                   
+                   ResultSetMetaData metaData = miResultSet.getMetaData();
+                   int numColumnas = metaData.getColumnCount();
+                   
+                   System.out.println("<<  REGISTROS ALMACENADOS  >>");
+                   System.out.println();
+                   
+                   for(int i = 1; i <= numColumnas; i++){
+                       
+                       System.out.printf("%-20s\t", metaData.getColumnName(i));
+                   }
+                   System.out.println();
+                   
+                   do{
+                       for(int i = 1; i <= numColumnas; i++){
+                           
+                           System.out.printf("$-20s\t",miResultSet.getObject(i));
+                       }
+                       System.out.println();
+                       
+                   }while(miResultSet.next());
+                   System.out.println();
+                   
+               }else{
+                   
+                   System.out.println("No se encontraron Registros.");
+                   
+               }
+               
+               miResultSet.close();
+               
+           }finally{
+               
+               stat.close();
+               conx.close();
            }
+           
+       }catch(SQLException ex){
+           
+           System.out.println("Ha ocurrido el siguiente error: " + ex.get);
        }
     }
     
