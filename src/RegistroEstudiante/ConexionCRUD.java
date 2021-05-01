@@ -127,7 +127,7 @@ public class ConexionCRUD {
                    do{
                        for(int i = 1; i <= numColumnas; i++){
                            
-                           System.out.printf("$-20s\t",miResultSet.getObject(i));
+                           System.out.printf("%-20s\t",miResultSet.getObject(i));
                        }
                        System.out.println();
                        
